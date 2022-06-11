@@ -44,13 +44,23 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorState = context.watch<BgColorState>();
+    final counterState = context.watch<CounterState>();
+    final levelState = context.watch<Level>();
+
     return Scaffold(
+      backgroundColor: levelState == Level.bronze
+          ? Colors.white
+          : levelState == Level.silver
+              ? Colors.grey
+              : Colors.yellow,
       appBar: AppBar(
+        backgroundColor: colorState.color,
         title: Text('StateNotifier'),
       ),
       body: Center(
         child: Text(
-          '0',
+          '${counterState.counter}',
           style: Theme.of(context).textTheme.headline2,
         ),
       ),
@@ -60,7 +70,9 @@ class MyHomePage extends StatelessWidget {
           FloatingActionButton(
             tooltip: 'Increment',
             child: Icon(Icons.add),
-            onPressed: () {},
+            onPressed: () {
+              context.read<Counter>().increment();
+            },
           ),
           SizedBox(
             width: 10.0,
@@ -68,7 +80,9 @@ class MyHomePage extends StatelessWidget {
           FloatingActionButton(
             tooltip: 'Change Color',
             child: Icon(Icons.color_lens_outlined),
-            onPressed: () {},
+            onPressed: () {
+              context.read<BgColor>().changeColor();
+            },
           )
         ],
       ),
