@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_state_notifier/flutter_state_notifier.dart';
+import 'package:provider/provider.dart';
+
+import 'providers/bg_color.dart';
+import 'providers/counter.dart';
+import 'providers/customer_level.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,13 +15,26 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'StateNotifier',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return MultiProvider(
+      providers: [
+        StateNotifierProvider<BgColor, BgColorState>(
+          create: (context) => BgColor(),
+        ),
+        StateNotifierProvider<Counter, CounterState>(
+          create: (context) => Counter(),
+        ),
+        StateNotifierProvider<CustomerLevel, Level>(
+          create: (context) => CustomerLevel(),
+        )
+      ],
+      child: MaterialApp(
+        title: 'StateNotifier',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const MyHomePage(),
       ),
-      home: const MyHomePage(),
     );
   }
 }
